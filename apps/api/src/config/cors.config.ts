@@ -12,24 +12,9 @@ export const corsOptionsDelegate: Parameters<INestApplication['enableCors']>[0] 
     methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   };
 
-  if (enableWildcard(req)) {
-    corsOptions.origin = '*';
-  } else {
-    corsOptions.origin = [];
+  corsOptions.origin = '*';
 
-    const requestOrigin = origin(req);
-
-    if (ALLOWED_ORIGINS_REGEX.test(requestOrigin)) {
-      corsOptions.origin.push(requestOrigin);
-    }
-    if (process.env.WIDGET_BASE_URL) {
-      corsOptions.origin.push(process.env.WIDGET_BASE_URL);
-    }
-    // Enable CORS for the docs
-    if (process.env.DOCS_BASE_URL) {
-      corsOptions.origin.push(process.env.DOCS_BASE_URL);
-    }
-  }
+  console.log('CORS options:', corsOptions.origin);
 
   callback(null as unknown as Error, corsOptions);
 };
